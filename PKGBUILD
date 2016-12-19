@@ -1,28 +1,27 @@
 
 pkgname=kicad
-pkgver=4.0.1
-_pkgver=4.0
+pkgver=4.9.70
+_commit=3ffa37c8b93a32c7864ac18eb13b63d869ee32b6
 pkgrel=1
 pkgdesc="Cross Platform and Open Source Electronics Design Automation Suite"
 arch=('x86_64')
 url="http://kicad-pcb.org/"
 license=('GPL')
 depends=('wxgtk2.9' 'hicolor-icon-theme' 'desktop-file-utils' 'libsm' 'boost-libs' 'glew' 'python2')
-makedepends=('cmake' 'zlib' 'mesa' 'boost' 'gettext')
-source=("https://launchpad.net/kicad/${_pkgver}/${pkgver}/+download/kicad-${pkgver}.tar.xz")
-md5sums=('e85e9ab6ba7736377a31cfecc8aca4a6')
+makedepends=('cmake' 'zlib' 'mesa' 'boost' 'gettext' 'swig')
+source=("https://github.com/KiCad/kicad-source-mirror/archive/${_commit}.zip")
+md5sums=('1978ca1af0d48fe919d1926cb3e95f39')
 
 build() {
   mkdir -p build
   cd build
 
-  cmake ../${pkgname}-${pkgver} \
+  cmake ../${pkgname}-source-mirror-${_commit} \
     -DCMAKE_BUILD_TYPE=Release \
     -DCMAKE_INSTALL_PREFIX=/usr \
-    -DKICAD_REPO_NAME=stable \
-    -DKICAD_BUILD_VERSION=${pkgver} \
-    -DKICAD_SKIP_BOOST=ON \
-    -DBUILD_GITHUB_PLUGIN=ON
+    -DKICAD_SCRIPTING=ON \
+    -DKICAD_SCRIPTING_MODULES=ON \
+    -DBUILD_GITHUB_PLUGIN=ON 
   make
 }
 
